@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="language.css">
+  <link rel="shortcut icon" type="image/x-icon" href="/Logos/Editinghonor.png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EditingHonor</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    a {
+      text-decoration: none; /* Removes the underline */
+    }
+
+    header {
+      display: flex;
+      justify-content: flex-start;
+      padding: 10px;
+      background-color: #fff;
+      border-bottom: 2px solid #ccc;
+    }
+
+    main {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .profile_pic_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50vh; /* Full screen height */
+    }
+
+    .circle-img {
+      width: 200px; /* Adjust size */
+      height: 200px;
+      border-radius: 50%; /* Makes it circular */
+      border: 5px solid #333; /* Gray border */
+      object-fit: cover; /* Ensures image fills the circle without stretching */
+    }
+
+    main h1 {
+      color: #333;
+      font-size: 24px;
+     }
+     /*Controls Main about me font size and color*/
+
+    .title_text {
+      font-weight: bold;
+      font-size: 24px;
+      padding-left: 20px;
+    }
+
+    .main_logo {
+      object-fit: contain;
+      width: 100px;
+      height: 100px;
+    }
+
+    .main_logo_title {
+      display: flex;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .video-container {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    }
+
+   .video-thumbnail {
+    width: 100%;
+    border-radius: 8px;
+   }
+
+   .video-player {
+    width: 100%;
+    display: none; /* Hidden until clicked */
+    border-radius: 8px;
+    }
+
+    .service {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .service img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .service h2 {
+      margin: 10px 0;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    footer {
+      background-color: #cfcfcf;
+      padding: 0px;
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    footer p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    /*main footer font size*/
+
+    .footer_text {
+      font-weight: bold;
+    }
+
+    .footer_style {
+      display: flex;
+      justify-content: space-between; /* Moves one div to the left and one to center */
+      align-items: center;
+      width: 100%;
+      height: 80px; /* Adjust as needed */
+      background: #333; /* Example background color */
+      color: white;
+    
+      position: relative; /* Keeps it at the bottom */
+      bottom: 0;
+      left: 0;
+    }
+
+    .socials_section {
+      text-align: left;
+      margin-left: 20px;
+    }
+
+    .skillset_section {
+      margin: 0 auto; /* Centers the text properly */
+      text-align: center;
+      margin-right: 100px;
+      flex-grow: 1; /* Ensures it takes available space */
+    }
+
+    .logo_program {
+      object-fit: contain;
+      width: 20px;
+      height: 20px;
+    }
+    
+    .collage-section {
+      margin: 40px 0;
+      padding: 0 20px;
+    }
+
+    .collage-item {
+      max-width: fit-content;
+      cursor: pointer;
+    }
+
+    .collage-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .collage-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .collage-scroll {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 10px;
+      padding-bottom: 10px;
+    }
+
+    .collage-scroll::-webkit-scrollbar {
+      display: none; /* Hide scrollbar */
+    }
+
+    .collage-image {
+      height: 500px;
+      width: auto;
+      flex: 0 0 auto;
+      border-radius: 10px;
+      object-fit: cover;
+      transition: background-color;
+    }
+
+    .scroll-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(51, 51, 51, 0.7);
+      border: none;
+      color: white;
+      font-size: 24px;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 10;
+      border-radius: 50%;
+    }
+
+    .scroll-button:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .scroll-left {
+      left: 0;
+    }
+
+    .scroll-right {
+      right: 0;
+    }
+  </style>
+  <script>
+    
+    function playVideo(thumbnail, videoSrc) {
+  const video = document.createElement('video');
+  video.src = videoSrc;
+  video.controls = true;
+  video.autoplay = true;
+  video.className = 'collage-image';
+  thumbnail.parentNode.replaceChild(video, thumbnail);
+}
+
+  function scrollCollage(containerId, direction) {
+    const scrollContainer = document.getElementById(containerId);
+    const scrollAmount = 300;
+    if (direction === 'left') {
+      scrollContainer.scrollLeft -= scrollAmount;
+    } else {
+      scrollContainer.scrollLeft += scrollAmount;
+    }
+  };
+
+</script>
+  </script>
+</head>
+<body>
+  <header>
+    <div class="main_logo_title">
+      <img class="main_logo" src="Logos/Editinghonor.png">
+      <p class="title_text">
+        EditingHonor
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <div class="profile_pic_container">
+      <img src="/Logos/Editinghonor.png" alt="Profile" class="circle-img">
+    </div>    
+    <h1>Hey! I am EditingHonor. I run a Video Editing / Design Business. If it is digital. whether it is a logo or a video or a photo or anything that is made of pixels. I can do it. What is the service that you are looking for?</h1>
+    <div class="collage-section">
+      <div class="collage-title">Animations</div>
+      <div class="collage-container">
+        <button class="scroll-button scroll-left" onclick="scrollCollage('collage1', 'left')">&#8592;</button>
+        <div class="collage-scroll" id="collage1">
+          <!-- Item 2: Image thumbnail that turns into a video -->
+          <div class="collage-item">
+            <img src="/Thumbnails/t3.png" class="collage-image" alt="Project 1" onclick="playVideo(this, '/Videos/0001-0112.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/thumbnail 2.png" class="collage-image" alt="Project 2" onclick="playVideo(this, '/Videos/Intro Edited For Client.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/video-capture-t0001.35seg-8782.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Reel7 (Minecraftanimation Silence Client).mp4')">
+          </div>
+        </div>
+        
+        <button class="scroll-button scroll-right" onclick="scrollCollage('collage1', 'right')">&#8594;</button>
+      </div>
+    </div>
+    <div class="collage-section">
+      <div class="collage-title">Stream Highlights/Clips/Shorts/Reels</div>
+      <div class="collage-container">
+        <button class="scroll-button scroll-left" onclick="scrollCollage('collage3', 'left')">&#8592;</button>
+        <div class="collage-scroll" id="collage3">
+          <!-- Item 2: Image thumbnail that turns into a video -->
+          <div class="collage-item">
+            <img src="Thumbnails/c1.png" class="collage-image" alt="Project 1" onclick="playVideo(this, '/Videos/Clip 1.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="Thumbnails/c2.png" class="collage-image" alt="Project 2" onclick="playVideo(this, '/Videos/Clip 2.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="Thumbnails/c3.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Clip 3.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/c4.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Clip 4.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/c5.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Clip 5.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/c6.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Clip 6.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/c7.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Clip 7.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/c8.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Clip 8.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/c9.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Clip 9.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/c10.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Clip 10.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/c11.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Clip 11.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/c12.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Clip 12.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/c13.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Clip 13.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/c14.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Clip 14.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/8.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Reel8 (Youtube Short Client).mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/reel2.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Reel2.mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/9.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Reel9 (Youtube Short Client).mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/11.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Reel11 ( Youtube Short For Client).mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/12.png" class="collage-image" alt="Project 3" onclick="playVideo(this, '/Videos/Reel12 (Youtube Short For Client)')">
+         </div>
+        </div>
+        <button class="scroll-button scroll-right" onclick="scrollCollage('collage3', 'right')">&#8594;</button>
+      </div>
+      <!--
+    </div>
+    <div class="collage-section">
+      <div class="collage-title">Graphic Design</div>
+      <div class="collage-container">
+        <button class="scroll-button scroll-left" onclick="scrollCollage('collage2', 'left')">&#8592;</button>
+        <div class="collage-scroll" id="collage2">
+          <!-- Item 1: Static image 
+          <img src="/Images/project1.jpg" class="collage-image" alt="Project 1">
+    
+          <!-- Item 2: Image thumbnail that turns into a video 
+          <div class="collage-item">
+            <img src="/Images/project2-thumbnail.jpg" class="collage-image" alt="Project 2" onclick="playVideo(this, '/Videos/project2.mp4')">
+          </div>
+    
+          <!-- Item 3: Static image 
+          <img src="/Images/project3.jpg" class="collage-image" alt="Project 3">
+          <div class="collage-item">
+            <img src="/Images/project2-thumbnail.jpg" class="collage-image" alt="Project 2" onclick="playVideo(this, )>
+          </div>
+          <div class="collage-item">
+            <img src="/Images/project2-thumbnail.jpg" class="collage-image" alt="Project 2" onclick="playVideo(this, '/Videos')">
+          </div>
+          <div class="collage-item">
+            <img src="/Images/project2-thumbnail.jpg" class="collage-image" alt="Project 2" onclick="playVideo(this, '/Videos/project2.mp4')">
+          </div>
+        </div> -->
+        
+        <button class="scroll-button scroll-right" onclick="scrollCollage('collage2', 'right')">&#8594;</button>
+      </div>
+    </div>
+    <div class="collage-section">
+      <div class="collage-title">Advertisements</div>
+      <div class="collage-container">
+        <button class="scroll-button scroll-left" onclick="scrollCollage('collage2', 'left')">&#8592;</button>
+        <div class="collage-scroll" id="collage4">
+          <div class="collage-item">
+            <img src="/Thumbnails/dress.png" class="collage-image" alt="Project 2" onclick="playVideo(this, '/Videos/Reel6 (Irl Free Test Client2).mp4')">
+          </div>
+          <div class="collage-item">
+            <img src="/Thumbnails/flower.png" class="collage-image" alt="Project 2" onclick="playVideo(this, '/Videos/Reel3 (I Recorded And Edited This With As A Free Test For An Irl Client).mp4')">
+          </div>
+              </div>
+        </div>
+        
+        <button class="scroll-button scroll-right" onclick="scrollCollage('collage4', 'right')">&#8594;</button>
+      </div>
+    </div>
+    <div class="collage-section">
+      <div class="collage-title">Edits</div>
+
+      <div class="collage-container">
+        <button class="scroll-button scroll-left" onclick="scrollCollage('collage5', 'left')">&#8592;</button>
+        <div class="collage-scroll" id="collage2">
+          <div class="collage-item">
+            <img src="/Thumbnails/edi1.png" class="collage-image" alt="Project 2" onclick="playVideo(this, '/Videos/Edit 1 For Silence.mp4')">
+          </div>
+        </div>
+        
+        <button class="scroll-button scroll-right" onclick="scrollCollage('collage5', 'right')">&#8594;</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+<div class="footer_style">
+  <div class="socials_section">
+    <p class="footer_text">Socials/Contact Me :</p>
+    <a href="https://www.instagram.com/editinghonor/" target="_blank">
+    <img href="instagram.com/user/editinghonor" class="logo_program" src="/Logos/2048px-Instagram_logo_2022.svg.png">
+    </a>
+    <a href="https://x.com/EditingHonor" target="_blank">
+    <img class="logo_program" src="/Logos/X-Logo.png">
+    </a>
+    <a href="https://www.tiktok.com/@editinghonor" target="_blank">
+    <img class="logo_program" src="/Logos/tiktok-6338432_1280.png">
+    </a>
+    <a href="https://www.youtube.com/@EditingHonor" target="_blank">
+    <img class="logo_program" src="/Logos/pngegg.png">
+    </a>
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=editinghonor@gmail.com&su=Hi%2C%20I%20would%20like%20to%20purchase%20one%20of%20your%20services%20please!&body=%28explain%20what%20you%20want%20here%20and%20you%20will%20have%20a%20reply%20within%20minutes%20to%20an%20hour%29" target="_blank">
+    <img class="logo_program" src="/Logos/pngimg.com - gmail_logo_PNG6.png">
+    </a>
+  </div>
+  <div class="skillset_section">
+    <p class="footer_text">Skillset :</p>
+    <img class="logo_program" src="/Logos/Adobe_After_Effects-Logo.wine.png">
+    <img class="logo_program" src="Logos/premiere-cc-logo-png-transparent.png">
+    <img class="logo_program" src="/Logos/photoshop.png">
+    <img class="logo_program" src="/Logos/sony-vegas-logo-icon.webp">
+    <img class="logo_program" src="/Logos/Blender_logo_no_text.svg.png">
+  </div>
+</div>
+  </footer>
+</body>
+</html>
